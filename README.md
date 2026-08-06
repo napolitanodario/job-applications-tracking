@@ -1,0 +1,1 @@
+automatic tool for job application tracking using LLMs and mailbox integration
