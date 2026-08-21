@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="refresh" content="60">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Job Application Tracker</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main>
+    <h1>Job applications</h1>
+    <p class="meta">{{ applications|length }} row(s). Auto-refresh every 60 seconds.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Position</th>
+            <th>Internship</th>
+            <th>Location</th>
+            <th>Contract type</th>
+            <th>Applied</th>
+            <th>Rejected</th>
+            <th>Invitation</th>
+            <th>Next steps</th>
+            <th>Notes</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for app in applications %}
+          <tr>
+            <td>{{ app.company }}</td>
+            <td>{{ app.position_title }}</td>
+            <td>{{ app.is_internship }}</td>
+            <td>{{ app.location }}</td>
+            <td>{{ app.contract_type }}</td>
+            <td>{{ app.applied_on }}</td>
+            <td>{{ app.rejected_on }}</td>
+            <td>{{ app.invitation_on }}</td>
+            <td>{{ app.next_steps }}</td>
+            <td class="notes">{{ app.notes }}</td>
+            <td>{{ app.status }}</td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="11">No applications yet.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>

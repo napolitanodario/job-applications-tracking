@@ -1,0 +1,38 @@
+services:
+  worker:
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+    platform: linux/arm64
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+      - ./secrets:/secrets
+      - colab_config:/root/.config/colab-cli
+    environment:
+      JOBTRACK_DB_PATH: /data/jobtrack.db
+      GMAIL_CREDENTIALS_PATH: /secrets/credentials.json
+      GMAIL_TOKEN_PATH: /secrets/token.json
+      POLL_INTERVAL_SECONDS: "1800"
+      COLAB_SESSION_NAME: jobtrack
+      BATCH_SIZE: "20"
+      LOG_LEVEL: INFO
+
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    platform: linux/arm64
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/data:ro
+    environment:
+      JOBTRACK_DB_PATH: /data/jobtrack.db
+      LOG_LEVEL: INFO
+    depends_on:
+      - worker
+
+volumes:
+  colab_config:
